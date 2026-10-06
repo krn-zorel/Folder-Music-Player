@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.foldermusicplayer.navigation.MusicPlayerNavHost
 import com.example.foldermusicplayer.ui.theme.FolderMusicPlayerTheme
 import com.example.foldermusicplayer.util.PermissionUtils
 
@@ -40,5 +41,10 @@ private fun AppRoot(){
     val context = LocalContext.current
     var hasPermission by remember { mutableStateOf(PermissionUtils.hasPermission(context)) }
 
+    if (hasPermission) {
+        MusicPlayerNavHost()
+    } else {
+        MusicPlayerNavHost()
+    }
 }
 
