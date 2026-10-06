@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.foldermusicplayer.ui.theme.FolderMusicPlayerTheme
+import com.example.foldermusicplayer.util.PermissionUtils
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +36,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun AppRoot(){
     val context = LocalContext.current
-//    var hasPermission by remember { mutableStateOf() }
+    var hasPermission by remember { mutableStateOf(PermissionUtils.hasPermission(context)) }
+
 }
 
