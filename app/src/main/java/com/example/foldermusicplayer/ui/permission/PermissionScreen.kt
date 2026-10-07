@@ -24,17 +24,28 @@ fun PermissionScreen(onPermissionGranted: () -> Unit) {
     val permission = PermissionUtils.requiredPermission()
     var wasDenied by remember { mutableStateOf(false) }
 
-    val launcher = rememberLauncherForActivityResult(
+    // Standard system permission dialog launcher
+    val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { granted ->
         if (granted) onPermissionGranted() else wasDenied = true
     }
 
+    // Settings launcher: triggers ONLY when coming back from App Settings
+    val settingsLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (PermissionUtils.hasPermission(context)) {
+            onPermissionGranted()
+        }
+    }
+
+    // Initial check when composable loads
     LaunchedEffect(Unit) {
         if (PermissionUtils.hasPermission(context)) {
             onPermissionGranted()
         } else {
-            launcher.launch(permission)
+            permissionLauncher.launch(permission)
         }
     }
 
@@ -59,16 +70,14 @@ fun PermissionScreen(onPermissionGranted: () -> Unit) {
             )
             Spacer(Modifier.height(24.dp))
 
-            // Switch button logic based on whether the user has denied the request
-            // Need to add a fix so that after going in setting and coming back if permission is given it should automatically refresh
             if (wasDenied) {
                 Button(onClick = {
-                    // Direct user straight to App System Settings
                     val intent = Intent(
                         Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                         Uri.fromParts("package", context.packageName, null)
                     )
-                    context.startActivity(intent)
+                    // Launch Settings via result launcher
+                    settingsLauncher.launch(intent)
                 }) {
                     Text("Open App Settings")
                 }
@@ -80,7 +89,7 @@ fun PermissionScreen(onPermissionGranted: () -> Unit) {
                     textAlign = TextAlign.Center
                 )
             } else {
-                Button(onClick = { launcher.launch(permission) }) {
+                Button(onClick = { permissionLauncher.launch(permission) }) {
                     Text("Grant Permission")
                 }
             }
