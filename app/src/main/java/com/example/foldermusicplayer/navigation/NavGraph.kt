@@ -10,6 +10,6 @@ import androidx.compose.ui.Modifier
 @Composable
 fun MusicPlayerNavHost() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-        Text("Welcome To The Music Player")
+        Text("Welcome To The Music Player Again")
     }
 }
