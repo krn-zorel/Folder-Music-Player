@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.foldermusicplayer.navigation.MusicPlayerNavHost
+import com.example.foldermusicplayer.ui.permission.PermissionScreen
 import com.example.foldermusicplayer.ui.theme.FolderMusicPlayerTheme
 import com.example.foldermusicplayer.util.PermissionUtils
 
@@ -44,7 +45,7 @@ private fun AppRoot(){
     if (hasPermission) {
         MusicPlayerNavHost()
     } else {
-        MusicPlayerNavHost()
+        PermissionScreen (onPermissionGranted = { hasPermission = true})
     }
 }
 
