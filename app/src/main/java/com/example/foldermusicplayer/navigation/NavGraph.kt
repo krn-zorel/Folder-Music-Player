@@ -6,10 +6,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun MusicPlayerNavHost() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-        Text("Welcome To The Music Player Again")
-    }
+    val navController = rememberNavController()
+//    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+//        Text("Welcome To The Music Player Again")
+//    }
+
+
 }
